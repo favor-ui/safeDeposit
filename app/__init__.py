@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from flask_redis import FlaskRedis
 from config import Config
 from flask_pymongo import PyMongo
 
