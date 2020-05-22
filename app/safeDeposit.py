@@ -1,7 +1,7 @@
 #######################################################################
 ##################  IMPORTING LIBRARIES   ##############################
 from app import app, mongo, api
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_restful import Resource, Api, reqparse
 import os, sys, re
 from datetime import datetime, date, timedelta
@@ -10,6 +10,12 @@ import requests, json, uuid
 
 #######################################################################
 ##################  DEFINING FUNCTIONS   ##############################
+
+@app.route('/', methods=['{POST', 'GET'])
+def index():
+    response= make_response('END connection ok')
+    response.headers['Content-Type'] = "text/plain"
+    return response
 
 def nigerian_time():
     now = datetime.utcnow() + timedelta(hours=1)
