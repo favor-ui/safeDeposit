@@ -64,7 +64,7 @@ def make_payment(payer_phone, receiver_phone, amount):
 #######################################################################
 ##################  DIFFERENT ENDPOINTS   ##############################
 
-deposit = mongo2.db.deposit
+deposit = mongo.db.deposit
 refs = str(uuid.uuid4().int)[:10]
 # api route for Deposit
 class Deposit(Resource):
