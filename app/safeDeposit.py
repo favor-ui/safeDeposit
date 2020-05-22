@@ -1,6 +1,6 @@
 #######################################################################
 ##################  IMPORTING LIBRARIES   ##############################
-from app import app, mongo2, api
+from app import app, mongo, api
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api, reqparse
 import os, sys, re

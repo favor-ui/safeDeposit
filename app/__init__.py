@@ -9,11 +9,10 @@ app = Flask(__name__)
 
 
 app.config.from_object(Config)
-# db = SQLAlchemy(app)
+
 mongo = PyMongo(app)
-mongo2 = PyMongo(app, os.environ.get('MONGO_URI_2'))
+
 api = Api(app)
 
-redis = FlaskRedis(app)
 
 from app import safeDeposit
