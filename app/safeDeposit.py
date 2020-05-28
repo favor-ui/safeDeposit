@@ -24,47 +24,47 @@ def nigerian_time():
     tm = now.strftime("%H:%M:%S%p")
     return (d2 +' '+'at'+' '+tm)
 
+
 def verify_agent(phone):
-
-    payload = {
-        "phone_number": phone
-    }
-    response = requests.get("https://safe-payy.herokuapp.com/agent/verify", data=payload)
-
-    return response.json()
-
+    head = {"key": "0987654321234567890"}
+    data = {"phone_number": phone}
+    res = requests.get('https://safe-payy.herokuapp.com/agent/verify', params=head, json=data)
+    # print(json.loads(res.content)['status'])
+    # print(json.loads(res.content))
+    return res.json()
 
 def verify_customer(phone):
-    payload = {
-        "phone_number": phone
-    }
-    response = requests.get("https://safe-payy.herokuapp.com/customer/verify", data=payload)
-
-    return response.json()
+    head = {"key": "0987654321234567890"}
+    data = {"phone_number": phone}
+    res = requests.get('https://safe-payy.herokuapp.com/customer/verify', params=head, json=data)
+    # print(json.loads(res.content)['status'])
+    # print(json.loads(res.content))
+    return res.json()
 
 
 def create_customer(phone):
-    # verifying customer using Customer Verify API
-    payload = {
-        "phone": phone
+    head = {"key": "0987654321234567890"}
+    data = {
+        'phone': phone
     }
-    response = requests.post("https://safe-payy.herokuapp.com/customer/register", data=payload)
-    # returns {"status": True,"message": message} if True
-    # or {"message": message, "status": False} if False
-    return response.json()
+    res = requests.post('https://safe-payy.herokuapp.com/customer/register', json=data, params=head)
+
+    # print(json.loads(res.content)['status'])
+    # print(json.loads(res.content))
+    return res.json()
 
 
 def make_payment(payer_phone, receiver_phone, amount):
-    # make payment by debiting Agent and Crediting Customer using Payment API
+    req_header = 'idl-7wqc9safepay _e7bccmw136f58'
     payload = {
-        "payer_phone": payer_phone,
-        "receiver_phone": receiver_phone,
-        "amount": amount
+        'payer_phone': payer_phone,
+        'receiver_phone': receiver_phone,
+        'amount': amount
+
     }
-    response = requests.post("https://sspayment.herokuapp.com/payment", data=payload)
-    # returns {"status": True,"message": message} if True
-    # or {"message": message, "status": False} if False
-    return response.json()
+    res = requests.post('https://sspayment.herokuapp.com/payment?key={0}'.format(req_header), data=payload)
+    return res.json()
+
 
 
 #######################################################################
