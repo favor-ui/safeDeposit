@@ -6,7 +6,22 @@ from flask_restful import Resource, Api, reqparse
 import os, sys, re
 from datetime import datetime, date, timedelta
 import requests, json, uuid
+from functools import wraps
+from dotenv import load_dotenv
 
+#######################################################################
+##################  DEFINING DECORATOR FUNCTIONS  ##############################
+
+# The actual decorator function
+def require_appkey(view_function):
+    @wraps(view_function)
+    # the new, post-decoration function. Note *args and **kwargs here.
+    def decorated_function(*args, **kwargs):
+        if request.args.get('x-deposit-key') and request.args.get('x-deposit-key') == os.environ.get('DEPOSIT_KEY'):
+            return view_function(*args, **kwargs)
+        else:
+            return make_response(jsonify({"message": "Unauthorized access at " + request.url, "status": False}), 403)
+    return decorated_function
 
 #######################################################################
 ##################  DEFINING FUNCTIONS   ##############################
@@ -149,7 +164,7 @@ class DepositDetail(Resource):
                         type=str,
                         required=True,
                         help="this field cannot be left blank")
-
+    @require_appkey
     def get(self):
         # try:
         data = DepositDetail.parser.parse_args()
@@ -181,6 +196,7 @@ api.add_resource(DepositDetail, '/deposit')
 
 class DepositDetails(Resource):
 
+    @require_appkey
     def get(self):
         # try:
         output = []
